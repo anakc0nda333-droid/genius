@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, session, redirect
 
 # from flask_login import LoginManager
 from dotenv import load_dotenv
@@ -15,6 +15,13 @@ def create_app():
     # login_manager.login_view = 'auth.login'
     app.secret_key = 'secretkey123'
     # auth login & register
+    
+    @app.route('/')
+    def landing_page():
+        if session.get('user_id'):
+            return redirect('/auth/dashboard')
+        return render_template('landingpage.html')
+    
     from app.auth.routes import auth
     app.register_blueprint(auth, url_prefix='/auth')
     

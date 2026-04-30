@@ -1,90 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Buat Chatbot</title>
-
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            width: 400px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-
-        h2 {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            text-align: left;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            margin-bottom: 20px;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #007bff;
-            border: none;
-            color: white;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #0056b3;
-        }
-
-        .back {
-            margin-top: 15px;
-            display: block;
-            text-decoration: none;
-            color: #007bff;
-            font-size: 14px;
-        }
-
-        .back:hover {
-            text-decoration: underline;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Buat Chatbot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
 
-<div class="container">
-    <h2>Buat Chatbot Baru</h2>
+  <form action="/auth/create-chatbot" method="POST"
+        class="bg-white p-8 rounded-xl shadow w-96">
 
-    <form method="POST">
-        <label>Nama Chatbot</label>
-        <input type="text" name="nama_chatbot" placeholder="Contoh: CS Toko Online" required>
+    <h2 class="text-xl font-semibold mb-6">Buat Chatbot</h2>
 
-        <button type="submit">Lanjut</button>
-    </form>
+    <input type="text" name="nama_chatbot"
+      placeholder="Nama Chatbot"
+      class="w-full mb-4 px-4 py-2 border rounded-lg"
+      required>
 
-    <a href="/auth/dashboard" class="back">← Kembali ke Dashboard</a>
-</div>
+    <button class="w-full bg-blue-500 text-white py-2 rounded-lg">
+      Lanjut
+    </button>
+
+  </form>
 
 </body>
 </html>

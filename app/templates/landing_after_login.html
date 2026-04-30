@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Landing</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 font-sans">
+
+  <!-- NAVBAR -->
+  <header class="flex items-center justify-between px-10 py-5 bg-white shadow-sm">
+
+    <!-- Logo -->
+    <div class="flex items-center gap-2">
+      <div class="text-purple-600 text-2xl">🤖</div>
+      <h1 class="font-semibold text-lg">ChatBot Builder</h1>
+    </div>
+
+    <!-- Menu -->
+    <nav class="hidden md:flex gap-8 text-gray-600">
+      <a href="#">Fitur</a>
+      <a href="#">Harga</a>
+      <a href="#">Cara Kerja</a>
+      <a href="#">Demo</a>
+    </nav>
+
+    <!-- User Section -->
+    <div class="flex items-center gap-4">
+
+      <!-- Nama User -->
+      <div class="text-sm text-gray-600">
+        Halo, <span class="font-semibold">{{ user.email }}</span>
+      </div>
+
+      <!-- Dashboard -->
+      <a href="/auth/dashboard"
+         class="px-4 py-2 bg-blue-600 text-white rounded-md">
+        Dashboard
+      </a>
+
+      <!-- Logout -->
+      <a href="/auth/logout"
+         class="px-4 py-2 border rounded-md text-gray-700">
+        Logout
+      </a>
+
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="grid md:grid-cols-2 gap-10 items-center px-10 py-16">
+
+    <!-- LEFT -->
+    <div>
+      <h2 class="text-4xl font-bold leading-tight">
+        Selamat Datang 👋 <br>
+        <span class="text-purple-600">Buat Chatbot Baru Sekarang</span>
+      </h2>
+
+      <p class="text-gray-600 mt-4">
+        Mulai dari nol atau lanjutkan chatbot yang sudah kamu buat.
+        Semua bisa kamu kelola dengan mudah di dashboard.
+      </p>
+
+      <div class="mt-6 flex gap-4">
+
+        <!-- BUAT CHATBOT -->
+        <a href="/auth/create-chatbot"
+           class="px-6 py-3 bg-purple-600 text-white rounded-lg">
+          + Buat Chatbot
+        </a>
+
+        <!-- KE DASHBOARD -->
+        <a href="/auth/dashboard"
+           class="px-6 py-3 border rounded-lg">
+          Lihat Dashboard
+        </a>
+
+      </div>
+    </div>
+
+    <!-- RIGHT PREVIEW -->
+    <div class="bg-white rounded-xl shadow-lg p-5 max-w-sm mx-auto">
+
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">🤖</div>
+          <div>
+            <p class="text-sm font-semibold">AI Assistant Kamu</p>
+            <p class="text-xs text-green-500">Online</p>
+          </div>
+        </div>
+        <span class="text-xs text-gray-400">Live Preview</span>
+      </div>
+
+      <div class="space-y-3 text-sm">
+        <div class="bg-purple-100 p-3 rounded-lg ml-auto w-fit">
+          Halo, chatbot bisa bantu apa?
+        </div>
+
+        <div class="bg-gray-100 p-3 rounded-lg w-fit">
+          Saya bisa bantu jawab pertanyaan pelanggan, info produk, dll 🚀
+        </div>
+      </div>
+
+      <div class="mt-4 flex items-center border rounded-lg px-3 py-2">
+        <input type="text" placeholder="Coba chat..." class="flex-1 outline-none text-sm">
+        <button class="text-purple-600">➤</button>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- QUICK ACTION -->
+  <section class="grid md:grid-cols-3 gap-6 px-10 pb-16">
+
+    <div class="bg-white p-5 rounded-lg shadow-sm">
+      <h3 class="font-semibold mb-2">🚀 Buat Chatbot</h3>
+      <p class="text-sm text-gray-500 mb-3">
+        Mulai chatbot baru dari nol
+      </p>
+      <a href="/auth/create-chatbot" class="text-purple-600 text-sm font-medium">
+        Mulai →
+      </a>
+    </div>
+
+    <div class="bg-white p-5 rounded-lg shadow-sm">
+      <h3 class="font-semibold mb-2">📊 Dashboard</h3>
+      <p class="text-sm text-gray-500 mb-3">
+        Lihat performa chatbot kamu
+      </p>
+      <a href="/auth/dashboard" class="text-purple-600 text-sm font-medium">
+        Buka →
+      </a>
+    </div>
+
+    <div class="bg-white p-5 rounded-lg shadow-sm">
+      <h3 class="font-semibold mb-2">⚙️ Pengaturan</h3>
+      <p class="text-sm text-gray-500 mb-3">
+        Atur chatbot & integrasi
+      </p>
+      <a href="#" class="text-purple-600 text-sm font-medium">
+        Atur →
+      </a>
+    </div>
+
+  </section>
+
+</body>
+</html>

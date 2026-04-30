@@ -75,6 +75,12 @@
             sendMessage();
           }
         });
+
+      function formatMessage(text) {
+        return text
+          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // bold
+          .replace(/\n/g, "<br>"); // enter
+      }
       function sendMessage() {
         let message = document.getElementById("message").value.trim();
 
@@ -93,11 +99,13 @@
             let chatBox = document.getElementById("chatBox");
 
             chatBox.innerHTML += `<div class="message user">${message}</div>`;
-            chatBox.innerHTML += `<div class="message bot">${data.reply}</div>`;
+
+            const formattedReply = formatMessage(data.reply);
+
+            chatBox.innerHTML += `<div class="message bot">${formattedReply}</div>`;
 
             document.getElementById("message").value = "";
 
-            // auto scroll ke bawah
             chatBox.scrollTop = chatBox.scrollHeight;
           });
       }

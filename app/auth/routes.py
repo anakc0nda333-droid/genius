@@ -11,31 +11,39 @@ from flask import request, jsonify
 auth = Blueprint('auth', __name__)
 
 @auth.route('/')
-def auth_page():
-    return render_template('auth.html')
+# def auth_page():
+#     return render_template('auth.html')
 
+
+@auth.route('/register', methods=['GET'])
+def register_page():
+    return render_template('auth.html')
 @auth.route('/register', methods=['POST'])
 def register():
-    username = request.form.get('username')
+    email = request.form.get('email')
     password = request.form.get('password')
 
     hashed_password = generate_password_hash(password)
-    
+
     supabase.table("users").insert({
-        "username": username,
+        "email": email,
         "password": hashed_password
     }).execute()
 
-    return redirect(url_for('auth.auth_page'))
+    return redirect('/auth/login')
 
+
+@auth.route('/login', methods=['GET'])
+def login_page():
+    return render_template('login.html')
 @auth.route('/login', methods=['POST'])
 def login():
-    username = request.form.get('username')
+    email = request.form.get('email')
     password = request.form.get('password')
 
     result = supabase.table("users") \
         .select("*") \
-        .eq("username", username) \
+        .eq("email", email) \
         .execute()
 
     if result.data:
@@ -43,11 +51,13 @@ def login():
 
         if check_password_hash(user['password'], password):
             session['user_id'] = user['id']
-            return redirect('/auth/dashboard')
+            return redirect('/auth/home')
         else:
             return "Password salah!"
 
     return "User tidak ditemukan!"
+
+
 
 @auth.route('/dashboard')
 def dashboard():
@@ -57,13 +67,24 @@ def dashboard():
         return redirect('/auth/login')
 
     # ambil chatbot berdasarkan user login
-    response = supabase.table('chatbot')\
+    response = supabase.table('chatbots')\
         .select('*')\
         .eq('user_id', user_id)\
         .execute()
 
     chatbots = response.data
     return render_template('dashboard.html', chatbots=chatbots)
+
+@auth.route('/home')
+def home():
+    user_id = session.get('user_id')
+
+    if not user_id:
+        return redirect('/auth/login')
+
+    user = supabase.table('users').select('*').eq('id', user_id).execute().data[0]
+
+    return render_template('landing_after_login.html', user=user)
 
 @auth.route('/chat/<int:chatbot_id>')
 def chat_page(chatbot_id):
@@ -76,7 +97,7 @@ def send_message():
     message = data.get('message')
     chatbot_id = data.get('chatbot_id')
 
-    N8N_WEBHOOK = "https://ahmadtarom.app.n8n.cloud/webhook/9c84e37f-d7f0-4862-9709-be08bc289d9c"
+    N8N_WEBHOOK = "https://anakcon.app.n8n.cloud/webhook/9c84e37f-d7f0-4862-9709-be08bc289d9c"
 
     response = requests.post(N8N_WEBHOOK, json={
         "message": message,
@@ -92,66 +113,76 @@ def send_message():
     return jsonify({
         "reply": result.get("reply", "Tidak ada respon")
     })
-    
+   
 @auth.route('/create-chatbot', methods=['GET', 'POST'])
 def create_chatbot():
-    if request.method == 'POST':
-        nama_chatbot = request.form.get('nama_chatbot')
-        user_id = session.get('user_id')
-        if not user_id:
-            return redirect('/auth/login')
+    user_id = session.get('user_id')
 
-        res = supabase.table('chatbot').insert({
-            "nama_chatbot": nama_chatbot,
-            "user_id": user_id
-        }).execute()
+    if not user_id:
+        return redirect('/auth/login')
 
-        chatbot_id = res.data[0]['chatbot_id']
-        if not res.data:
-            return "Gagal insert chatbot"
+    if request.method == 'GET':
+        return render_template('create_chatbot.html') 
 
-        chatbot_id = res.data[0]['chatbot_id']
-        return redirect(url_for('auth.form_detail', chatbot_id=chatbot_id))
+    # POST
+    nama_chatbot = request.form.get('nama_chatbot')
+    user_id = session.get('user_id')
 
-    return render_template('create_chatbot.html')
+    if not user_id:
+        return redirect('/auth/login')
 
-@auth.route('/form/<int:chatbot_id>', methods=['GET', 'POST'])
-def form_detail(chatbot_id):
-    if request.method == 'POST':
-        data = request.form
-        file = request.files.get('file_knowledge')  
-        file_url = None
+    res = supabase.table('chatbots').insert({
+        "nama_chatbot": nama_chatbot,
+        "user_id": user_id
+    }).execute()
 
-        if file:
-            file_path = f"{chatbot_id}/{file.filename}"
+    if not res.data:
+        return "Gagal membuat chatbot"
 
-            supabase.storage.from_("chatbot-files").upload(
-                file_path,
-                file.read(),
-                {"content-type": file.content_type}
-            )
+    chatbot_id = res.data[0]['chatbot_id']
 
-            file_url = supabase.storage.from_("chatbot-files").get_public_url(file_path)
+    return redirect(f'/auth/create-chatbot-detail/{chatbot_id}')
+ 
+@auth.route('/create-chatbot-detail/<int:chatbot_id>', methods=['GET', 'POST'])
+def create_chatbot_detail(chatbot_id):
 
-        supabase.table('form_chatbot').insert({
-            "nama_usaha": data.get('nama_usaha'),
-            "deskripsi_usaha": data.get('deskripsi_usaha'),
-            "alur_usaha": data.get('alur_usaha'),
-            "tujuan_chatbot": data.get('tujuan_chatbot'),
-            "persona": data.get('persona'),
-            "batasan_behavior": data.get('batasan_behavior'),
-            "file_knowledge": file_url,
-            "id_chatbot": chatbot_id
-        }).execute()
-        
-        webhook_url = "https://ahmadtarom.app.n8n.cloud/webhook/53d52cb1-ba91-488e-ab49-ec2552705f7a"
+    user_id = session.get('user_id')
 
-        # if file and file.filename != "":
-        #     files = {
-        #         'file': (file.filename, file.read(), file.content_type) 
-        #     }
+    if not user_id:
+        return redirect('/auth/login')
+    
+    if request.method == 'GET':
+        return render_template('create_chatbot_detail.html', chatbot_id=chatbot_id)
 
-        data_payload = {
+    data = request.form
+    file = request.files.get('file_knowledge')
+    file_url = None
+
+    if file and file.filename != "":
+        file_path = f"{chatbot_id}/{file.filename}"
+
+        supabase.storage.from_("chatbot-files").upload(
+            file_path,
+            file.read(),
+            {"content-type": file.content_type}
+        )
+
+        file_url = supabase.storage.from_("chatbot-files").get_public_url(file_path)
+
+    supabase.table('form_chatbot').insert({
+        "id_chatbot": chatbot_id,
+        "nama_usaha": data.get('nama_usaha'),
+        "deskripsi_usaha": data.get('deskripsi_usaha'),
+        "alur_usaha": data.get('alur_usaha'),
+        "tujuan_chatbot": data.get('tujuan_chatbot'),
+        "batasan_behavior": data.get('batasan_behavior'),
+        "file_knowledge": file_url
+    }).execute()
+
+    
+    webhook_url = "https://anakcon.app.n8n.cloud/webhook/53d52cb1-ba91-488e-ab49-ec2552705f7a"
+
+    data_payload = {
             "chatbot_id": chatbot_id,
             "nama_usaha": data.get('nama_usaha'),
             "deskripsi_usaha": data.get('deskripsi_usaha'),
@@ -162,15 +193,21 @@ def form_detail(chatbot_id):
             "file_url": file_url
         }
 
-        try:
+    try:
             response = requests.post(
                 webhook_url,
                 data=data_payload
             )
             print("STATUS:", response.status_code)
             print("RESPONSE:", response.text)
-        except Exception as e:
-            print("ERROR N8N:", e)
-        return redirect('/auth/dashboard')
+    except Exception as e:
+        print("ERROR N8N:", e)
+        
+    return redirect('/auth/dashboard')
 
-    return render_template('form_buat.html', chatbot_id=chatbot_id)
+
+
+@auth.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')

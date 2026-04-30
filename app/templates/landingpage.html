@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot Builder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 font-sans">
+
+  <!-- Navbar -->
+  <header class="flex items-center justify-between px-10 py-5 bg-white shadow-sm">
+    <div class="flex items-center gap-2">
+      <div class="text-purple-600 text-2xl">🤖</div>
+      <h1 class="font-semibold text-lg">ChatBot Builder</h1>
+    </div>
+
+    <nav class="hidden md:flex gap-8 text-gray-600">
+      <a href="#">Fitur</a>
+      <a href="#">Harga</a>
+      <a href="#">Cara Kerja</a>
+      <a href="#">Demo</a>
+    </nav>
+
+    <div class="flex gap-3">
+      <a href="/auth/login" class="px-4 py-2 border rounded-md text-gray-700">
+        Login
+      </a>
+
+      <a href="/auth/login" class="px-4 py-2 bg-purple-600 text-white rounded-md">
+        Mulai Gratis
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="grid md:grid-cols-2 gap-10 items-center px-10 py-16">
+
+    <!-- Left -->
+    <div>
+      <h2 class="text-4xl font-bold leading-tight">
+        Buat Chatbot Kamu <br>
+        Sendiri <span class="text-purple-600">Tanpa Coding</span>
+      </h2>
+
+      <p class="text-gray-600 mt-4">
+        Tentukan nama, gaya bahasa, dan upload knowledge.
+        Chatbot siap digunakan di Telegram, WhatsApp, dan platform lainnya.
+      </p>
+
+      <div class="mt-6 flex gap-4">
+        <button class="px-6 py-3 bg-purple-600 text-white rounded-lg">
+          Mulai Gratis
+        </button>
+        <button class="px-6 py-3 border rounded-lg">
+          Lihat Demo
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Chat Preview -->
+    <div class="bg-white rounded-xl shadow-lg p-5 max-w-sm mx-auto">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">🤖</div>
+          <div>
+            <p class="text-sm font-semibold">Customer Support Bot</p>
+            <p class="text-xs text-green-500">Online</p>
+          </div>
+        </div>
+        <span class="text-xs text-gray-400">+62 811</span>
+      </div>
+
+      <!-- Chat -->
+      <div class="space-y-3 text-sm">
+        <div class="bg-purple-100 p-3 rounded-lg ml-auto w-fit">
+          Halo, bagaimana cara melacak pesanan?
+        </div>
+
+        <div class="bg-gray-100 p-3 rounded-lg w-fit">
+          Halo 👋 <br>
+          Silakan berikan nomor pesanan Anda, nanti saya bantu cek.
+        </div>
+      </div>
+
+      <!-- Input -->
+      <div class="mt-4 flex items-center border rounded-lg px-3 py-2">
+        <input type="text" placeholder="Ketik pesan..." class="flex-1 outline-none text-sm">
+        <button class="text-purple-600">➤</button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Features -->
+  <section class="grid md:grid-cols-3 gap-6 px-10 pb-16">
+
+    <div class="flex items-start gap-4 bg-white p-5 rounded-lg shadow-sm">
+      <div class="text-purple-600 text-xl">🔒</div>
+      <div>
+        <h3 class="font-semibold">Custom Persona</h3>
+        <p class="text-gray-500 text-sm">Atur chatbot sesuai peran</p>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 bg-white p-5 rounded-lg shadow-sm">
+      <div class="text-purple-600 text-xl">📄</div>
+      <div>
+        <h3 class="font-semibold">Upload Knowledge</h3>
+        <p class="text-gray-500 text-sm">PDF, TXT, atau input manual</p>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 bg-white p-5 rounded-lg shadow-sm">
+      <div class="text-purple-600 text-xl">🌐</div>
+      <div>
+        <h3 class="font-semibold">Multi Platform</h3>
+        <p class="text-gray-500 text-sm">WhatsApp, Telegram, Web</p>
+      </div>
+    </div>
+
+  </section>
+
+</body>
+
+</html>

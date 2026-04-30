@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Chatbot Builder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+  <div class="w-full max-w-5xl bg-white rounded-2xl shadow-xl grid md:grid-cols-2 overflow-hidden">
+
+    <!-- LEFT -->
+    <div class="p-10">
+
+      <!-- Logo -->
+      <div class="flex items-center gap-3 mb-10">
+        <div class="w-10 h-10 flex items-center justify-center bg-purple-100 text-purple-600 rounded-lg text-xl">
+          🤖
+        </div>
+        <h1 class="font-semibold text-lg text-gray-800">ChatBot Builder</h1>
+      </div>
+
+      <!-- Title -->
+      <div class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-2">
+          Selamat Datang 👋
+        </h2>
+        <p class="text-gray-500 text-sm">
+          Masuk ke akunmu untuk melanjutkan
+        </p>
+      </div>
+
+      <!-- Social -->
+      <div class="space-y-3 mb-6">
+        <button
+          class="w-full border border-gray-200 rounded-lg py-2.5 flex items-center justify-center gap-2 hover:bg-gray-50 transition">
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5">
+          <span class="text-sm">Masuk dengan Google</span>
+        </button>
+
+        <!-- <button class="w-full border border-gray-200 rounded-lg py-2.5 flex items-center justify-center gap-2 hover:bg-gray-50 transition">
+        <img src="https://www.svgrepo.com/show/512317/github-142.svg" class="w-5">
+        <span class="text-sm">Masuk dengan GitHub</span>
+      </button> -->
+      </div>
+
+      <!-- Divider -->
+      <div class="flex items-center gap-3 mb-6">
+        <div class="flex-1 h-px bg-gray-200"></div>
+        <span class="text-xs text-gray-400">atau dengan email</span>
+        <div class="flex-1 h-px bg-gray-200"></div>
+      </div>
+
+      <!-- Form -->
+      <form action="/auth/login" method="POST" class="space-y-5">
+
+        <div>
+          <label class="text-sm text-gray-600">Email</label>
+          <input type="email" name="email" class="w-full mt-1 px-4 py-2.5 border border-gray-200 rounded-lg"
+            placeholder="contoh@email.com" required>
+        </div>
+
+        <div>
+          <label class="text-sm text-gray-600">Password</label>
+          <input type="password" name="password" class="w-full mt-1 px-4 py-2.5 border border-gray-200 rounded-lg"
+            placeholder="Masukkan password" required>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-500 text-white py-2.5 rounded-lg">
+          Masuk
+        </button>
+
+      </form>
+
+      <!-- Register -->
+      <p class="text-sm text-gray-500 mt-8 text-center">
+        Belum punya akun?
+        <a href="/auth/register" class="text-blue-600 font-medium hover:underline">
+          Daftar sekarang
+        </a>
+      </p>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="bg-gradient-to-r from-blue-200 to-blue-300 p-10 flex flex-col justify-center">
+
+      <!-- Illustration -->
+      <div class="flex justify-center mb-8">
+        <div class="w-36 h-36 bg-white rounded-full flex items-center justify-center shadow-lg text-4xl">
+          <img src="{{ url_for('static', filename='logos1.png') }}" alt="">
+        </div>
+      </div>
+
+      <!-- Title kecil -->
+      <h3 class="text-center font-semibold text-gray-700 mb-6">
+        Bangun chatbot dalam hitungan menit
+      </h3>
+
+      <!-- Features -->
+      <ul class="space-y-3 text-sm text-gray-700 max-w-xs mx-auto">
+        <li class="flex gap-2">
+          <span class="text-purple-600">✔</span>
+          Tanpa coding
+        </li>
+        <li class="flex gap-2">
+          <span class="text-purple-600">✔</span>
+          Upload knowledge fleksibel
+        </li>
+        <li class="flex gap-2">
+          <span class="text-purple-600">✔</span>
+          Uji coba sebelum deploy
+        </li>
+        <li class="flex gap-2">
+          <span class="text-purple-600">✔</span>
+          Multi platform (WA, Telegram, Web)
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>
