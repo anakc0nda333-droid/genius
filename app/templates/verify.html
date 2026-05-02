@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Verifikasi OTP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="flex items-center justify-center h-screen bg-gray-100">
+    <form method="POST" class="bg-white p-8 rounded-xl shadow w-80 text-center">
+      <h2 class="text-xl font-semibold mb-2">Verifikasi Email</h2>
+      <p class="text-sm text-gray-500 mb-6">Masukkan 6 digit kode OTP</p>
+
+      <!-- OTP BOX -->
+      <div class="flex justify-between mb-6">
+        <input
+          type="text"
+          maxlength="1"
+          class="otp w-10 h-12 border text-center text-lg rounded"
+        />
+        <input
+          type="text"
+          maxlength="1"
+          class="otp w-10 h-12 border text-center text-lg rounded"
+        />
+        <input
+          type="text"
+          maxlength="1"
+          class="otp w-10 h-12 border text-center text-lg rounded"
+        />
+        <input
+          type="text"
+          maxlength="1"
+          class="otp w-10 h-12 border text-center text-lg rounded"
+        />
+        <input
+          type="text"
+          maxlength="1"
+          class="otp w-10 h-12 border text-center text-lg rounded"
+        />
+        <input
+          type="text"
+          maxlength="1"
+          class="otp w-10 h-12 border text-center text-lg rounded"
+        />
+      </div>
+
+      <!-- hidden input -->
+      <input type="hidden" name="otp" id="otp" />
+
+      <button class="w-full bg-purple-600 text-white py-2 rounded">
+        Verifikasi
+      </button>
+      <p id="timer" class="text-sm text-gray-500 mt-3">
+        Kirim ulang dalam 60 detik
+      </p>
+
+      <button
+        type="button"
+        id="resendBtn"
+        onclick="resendOTP()"
+        class="text-purple-600 text-sm mt-2 hidden"
+      >
+        Kirim ulang kode
+      </button>
+    </form>
+
+    <script>
+      const inputs = document.querySelectorAll(".otp");
+
+      inputs.forEach((input, index) => {
+        // auto pindah ke next
+        input.addEventListener("input", () => {
+          if (input.value.length === 1 && index < inputs.length - 1) {
+            inputs[index + 1].focus();
+          }
+          updateOTP();
+        });
+
+        // backspace ke kiri
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Backspace" && input.value === "" && index > 0) {
+            inputs[index - 1].focus();
+          }
+        });
+      });
+
+      function updateOTP() {
+        let code = "";
+        inputs.forEach((i) => (code += i.value));
+        document.getElementById("otp").value = code;
+      }
+      let timeLeft = 60;
+      const timerEl = document.getElementById("timer");
+      const resendBtn = document.getElementById("resendBtn");
+
+      const countdown = setInterval(() => {
+        timeLeft--;
+
+        timerEl.innerText = `Kirim ulang dalam ${timeLeft} detik`;
+
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          timerEl.classList.add("hidden");
+          resendBtn.classList.remove("hidden");
+        }
+      }, 1000);
+
+      function resendOTP() {
+        fetch("/auth/resend", {
+          method: "GET",
+        })
+          .then((res) => res.text())
+          .then((data) => {
+            alert("Kode baru dikirim!");
+
+            // reset countdown
+            timeLeft = 60;
+            timerEl.classList.remove("hidden");
+            resendBtn.classList.add("hidden");
+
+            const newCountdown = setInterval(() => {
+              timeLeft--;
+              timerEl.innerText = `Kirim ulang dalam ${timeLeft} detik`;
+
+              if (timeLeft <= 0) {
+                clearInterval(newCountdown);
+                timerEl.classList.add("hidden");
+                resendBtn.classList.remove("hidden");
+              }
+            }, 1000);
+          });
+      }
+    </script>
+  </body>
+</html>

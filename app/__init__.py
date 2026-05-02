@@ -16,17 +16,19 @@ def create_app():
     app.secret_key = 'secretkey123'
     # auth login & register
     
+    from app.auth.routes import auth
+    from app.dashboard.routes import dashboard
+    from app.chatbot.routes import chatbot
+    
+    app.register_blueprint(auth, url_prefix='/auth')
+    app.register_blueprint(dashboard, url_prefix='/dashboard')
+    app.register_blueprint(chatbot, url_prefix='/chatbot')
+    
     @app.route('/')
     def landing_page():
         if session.get('user_id'):
-            return redirect('/auth/dashboard')
+            return redirect('/dashboard/dashboard')
         return render_template('landingpage.html')
     
-    from app.auth.routes import auth
-    app.register_blueprint(auth, url_prefix='/auth')
-    
-    # form
-    from app.form.routes import form_bp
-    app.register_blueprint(form_bp, url_prefix='/form')
 
     return app

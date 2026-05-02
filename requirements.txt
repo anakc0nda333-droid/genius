@@ -3,3 +3,4 @@ request
 python-dotenv
 werkzeug
 flask-login
+resend
